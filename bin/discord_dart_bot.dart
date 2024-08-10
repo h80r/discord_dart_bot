@@ -1,3 +1,4 @@
+import 'package:discord_dart_bot/banned_words.dart';
 import 'package:discord_dart_bot/tormenta25.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
@@ -18,6 +19,8 @@ void main(List<String> arguments) async {
 
   client.onMessageCreate.listen((event) async {
     if (event.member?.id == botUser.id) return;
+
+    await checkBannedWords(event);
 
     final twitterPattern = RegExp(
       r'https:\/\/(?:x|twitter).com\/([^\s?]*)(?:\?s=.*&t=[^\s]*)?',
