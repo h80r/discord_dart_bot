@@ -1,5 +1,6 @@
 import 'package:discord_dart_bot/banned_words.dart';
 import 'package:discord_dart_bot/tormenta25.dart';
+import 'package:discord_dart_bot/daily_games.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
 
@@ -16,6 +17,8 @@ void main(List<String> arguments) async {
 
   await initialTormenta25Check(client);
   periodicTormenta25Check(client);
+
+  dailyWordles(client);
 
   client.onMessageCreate.listen((event) async {
     if (event.member?.id == botUser.id) return;
