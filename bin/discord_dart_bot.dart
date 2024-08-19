@@ -3,14 +3,24 @@ import 'package:discord_dart_bot/tormenta25.dart';
 import 'package:discord_dart_bot/daily_games.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
+import 'package:nyxx_commands/nyxx_commands.dart';
+
+final bfCommand =
+    ChatCommand('bf', 'Brainfog command', (ChatContext context) async {
+  await context.respond(MessageBuilder(content: '🧠 🌫️'));
+});
 
 void main(List<String> arguments) async {
   final env = DotEnv()..load();
   // print('Hello world: ${discord_dart_bot.calculate()}!');
+  final commands = CommandsPlugin(prefix: (_) => '!');
+
+  commands.addCommand(bfCommand);
+
   final client = await Nyxx.connectGateway(
     env['DISCORD_TOKEN'] ?? 'missing_key',
     GatewayIntents.allUnprivileged | GatewayIntents.messageContent,
-    options: GatewayClientOptions(plugins: [logging, cliIntegration]),
+    options: GatewayClientOptions(plugins: [logging, cliIntegration, commands]),
   );
 
   final botUser = await client.users.fetchCurrentUser();
