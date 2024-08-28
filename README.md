@@ -10,6 +10,7 @@
   - [x] Mobile twitter support with original link
   - [x] Include option to delete created messages for the author
 - [ ] Auto-Fix TikTok links
+- [ ] Auto-Fix Reddit links
 - [ ] Reduce embed clutter
   - [ ] Verify if it's possible to include the author message as a new embed after sending the auto-embed message
 - [ ] Fix message embed still displaying trackers
@@ -18,4 +19,7 @@
   - [x] Refatorar Código
   - [ ] Deletar a mensagem prévia caso exista ao reiniciar
   - [ ] Incluir Error Handling
-- [ ] Refatorar resto do bot
+- [x] Refatorar resto do bot
+- [ ] Testes
+  - [ ] Fragmentar as functions em unidades testáveis
+  - [ ] Incluir testes

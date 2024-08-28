@@ -1,133 +1,56 @@
 import 'package:discord_dart_bot/banned_words.dart';
-import 'package:discord_dart_bot/tormenta25.dart';
+import 'package:discord_dart_bot/commands.dart' as commands;
 import 'package:discord_dart_bot/daily_games.dart';
+import 'package:discord_dart_bot/link_fixers/link_fixers.dart';
+import 'package:discord_dart_bot/reactions.dart';
+import 'package:discord_dart_bot/tormenta25.dart';
+// External packages
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 
-final bfCommand =
-    ChatCommand('bf', 'Brainfog command', (ChatContext context) async {
-  await context.respond(MessageBuilder(content: '🧠 🌫️'));
-});
-
 void main(List<String> arguments) async {
+  // -----------------------
+  // Setup
+  // -----------------------
   final env = DotEnv()..load();
-  // print('Hello world: ${discord_dart_bot.calculate()}!');
-  final commands = CommandsPlugin(prefix: (_) => '!');
 
-  commands.addCommand(bfCommand);
+  final botCommands = CommandsPlugin(prefix: (_) => '!');
+  botCommands.addCommand(commands.bfCommand);
 
   final client = await Nyxx.connectGateway(
     env['DISCORD_TOKEN'] ?? 'missing_key',
     GatewayIntents.allUnprivileged | GatewayIntents.messageContent,
-    options: GatewayClientOptions(plugins: [logging, cliIntegration, commands]),
+    options: GatewayClientOptions(
+      plugins: [logging, cliIntegration, botCommands],
+    ),
   );
 
   final botUser = await client.users.fetchCurrentUser();
 
+  // -----------------------
+  // Initialization
+  // -----------------------
   await initialTormenta25Check(client);
   periodicTormenta25Check(client);
 
   dailyWordles(client);
 
+  // -----------------------
+  // Events
+  // -----------------------
   client.onMessageCreate.listen((event) async {
     if (event.member?.id == botUser.id) return;
 
     await checkBannedWords(event);
-
-    final twitterPattern = RegExp(
-      r'https:\/\/(?:x|twitter).com\/([^\s?]*)(?:\?s=.*&t=[^\s]*)?',
-    );
-
-    if (twitterPattern.hasMatch(event.message.content)) {
-      await event.message.delete();
-
-      final parsedLinks = <String>[];
-      final newContent = event.message.content.replaceAllMapped(
-        twitterPattern,
-        (match) {
-          final newLink = 'https://fixupx.com/${match.group(1)}';
-          parsedLinks.add(newLink);
-          return '~~[Link ${parsedLinks.length}](${newLink.replaceFirst('fixup', '')})~~';
-        },
-      );
-
-      var lastMessage = await event.message.channel.sendMessage(
-        MessageBuilder(
-          replyId: event.message.reference?.messageId,
-          embeds: [
-            EmbedBuilder(
-              author: EmbedAuthorBuilder(
-                name: event.message.author.username,
-                iconUrl: event.message.author.avatar?.url,
-              ),
-              description: newContent,
-              color: DiscordColor.parseHexString('7C6EBB'),
-            ),
-          ],
-        ),
-      );
-
-      for (final link in parsedLinks) {
-        lastMessage = await event.message.channel.sendMessage(MessageBuilder(
-          replyId: lastMessage.id,
-          content:
-              '[${parsedLinks.length == 1 ? '.' : 'Link ${parsedLinks.indexOf(link) + 1}'}]($link)',
-        ));
-      }
-
-      await lastMessage.react(
-        ReactionBuilder(name: ':sus', id: Snowflake(941130823514615888)),
-      );
-    }
+    await twitterAutoFix(event);
   });
 
   client.onMessageReactionAdd.listen((event) async {
     if (event.member?.id == botUser.id) return;
     final reactedMessage = await event.message.get();
 
-    // if (event.emoji.name == '🔍') {
-    //   print(reactedMessage);
-    //   print('=============[embeds]=============');
-    //   for (final embed in reactedMessage.embeds) {
-    //     print('Author: ${embed.author}');
-    //     print('Color: ${embed.color}');
-    //     print('Description: ${embed.description}');
-    //     print('Fields: ${embed.fields}');
-    //     print('Footer: ${embed.footer}');
-    //     print('Image: ${embed.image}');
-    //     print('Provider: ${embed.provider}');
-    //     print('Thumbnail: ${embed.thumbnail}');
-    //     print('Timestamp: ${embed.timestamp}');
-    //     print('Title: ${embed.title}');
-    //     print('URL: ${embed.url}');
-    //     print('Video: ${embed.video}');
-    //   }
-    //   return;
-    // }
-
-    if (event.emoji.id != Snowflake(941130823514615888)) return;
-    if (event.messageAuthorId != botUser.id) return;
-
-    var currentMessage = reactedMessage;
-    final messagesToDelete = [currentMessage];
-    while (currentMessage.reference != null) {
-      final referencedMessage =
-          (await currentMessage.reference?.message?.get())!;
-      if (referencedMessage.author.id == botUser.id) {
-        messagesToDelete.insert(0, referencedMessage);
-        if (referencedMessage.content == '') {
-          break;
-        }
-        currentMessage = referencedMessage;
-      }
-    }
-
-    if (messagesToDelete.first.embeds.first.author?.name ==
-        event.member?.user?.username) {
-      for (final message in messagesToDelete) {
-        await message.delete();
-      }
-    }
+    messageDebugger(event, reactedMessage);
+    await messageDeleter(event, reactedMessage, botUser);
   });
 }
