@@ -52,8 +52,14 @@ MapEntry<int, String> getNextTarget() {
 
 Future<double> getPledged() async {
   final response = await get(_projectEndpoint);
-  final [{'pledged': pledged}] = jsonDecode(response.body) as List;
-  return pledged;
+  try {
+    final [{'pledged': pledged}] = jsonDecode(response.body) as List;
+    return pledged;
+  } on Exception catch (e) {
+    print(e);
+    print(response.body);
+    rethrow; // TODO: Handle after discovering what is the issue
+  }
 }
 
 Future<void> initialTormenta25Check(NyxxGateway client) async {

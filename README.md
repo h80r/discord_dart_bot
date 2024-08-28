@@ -18,7 +18,7 @@
   - [x] Acompanhamento básico
   - [x] Refatorar Código
   - [ ] Deletar a mensagem prévia caso exista ao reiniciar
-  - [ ] Incluir Error Handling
+  - [x] Incluir Error Handling
 - [x] Refatorar resto do bot
 - [ ] Testes
   - [ ] Fragmentar as functions em unidades testáveis
