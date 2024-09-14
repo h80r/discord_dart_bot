@@ -1,16 +1,18 @@
-import 'package:nyxx/nyxx.dart';
+import 'package:discord_dart_bot/link_fixers/link_fixer.dart';
 
-final twitterPattern = RegExp(
-  r'https:\/\/(?:x|twitter).com\/([^\s?]*)(?:\?s=.*&t=[^\s]*)?',
-);
+class TwitterFixer implements FixableLink {
+  const TwitterFixer();
 
-Future<void> twitterAutoFix(MessageCreateEvent event) async {
-  if (twitterPattern.hasMatch(event.message.content)) {
-    await event.message.delete();
+  @override
+  RegExp get linkRegex => RegExp(
+        r'https:\/\/(?:x|twitter).com\/([^\s?]*)(?:(?:\?|&)[st]=[^\s]*)?',
+      );
 
+  @override
+  (String, List<String>) fixMessage(String message) {
     final parsedLinks = <String>[];
-    final newContent = event.message.content.replaceAllMapped(
-      twitterPattern,
+    final newMessage = message.replaceAllMapped(
+      linkRegex,
       (match) {
         final newLink = 'https://fixupx.com/${match.group(1)}';
         parsedLinks.add(newLink);
@@ -18,32 +20,9 @@ Future<void> twitterAutoFix(MessageCreateEvent event) async {
       },
     );
 
-    var lastMessage = await event.message.channel.sendMessage(
-      MessageBuilder(
-        replyId: event.message.reference?.messageId,
-        embeds: [
-          EmbedBuilder(
-            author: EmbedAuthorBuilder(
-              name: event.message.author.username,
-              iconUrl: event.message.author.avatar?.url,
-            ),
-            description: newContent,
-            color: DiscordColor.parseHexString('7C6EBB'),
-          ),
-        ],
-      ),
-    );
-
-    for (final link in parsedLinks) {
-      lastMessage = await event.message.channel.sendMessage(MessageBuilder(
-        replyId: lastMessage.id,
-        content:
-            '[${parsedLinks.length == 1 ? '.' : 'Link ${parsedLinks.indexOf(link) + 1}'}]($link)',
-      ));
-    }
-
-    await lastMessage.react(
-      ReactionBuilder(name: ':sus', id: Snowflake(941130823514615888)),
-    );
+    return (newMessage, parsedLinks);
   }
+
+  @override
+  bool shouldFix(String message) => linkRegex.hasMatch(message);
 }

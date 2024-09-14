@@ -1,7 +1,7 @@
 import 'package:discord_dart_bot/banned_words.dart';
 import 'package:discord_dart_bot/commands.dart' as commands;
 import 'package:discord_dart_bot/daily_games.dart';
-import 'package:discord_dart_bot/link_fixers/link_fixers.dart';
+import 'package:discord_dart_bot/link_fixers/link_fixer.dart';
 import 'package:discord_dart_bot/reactions.dart';
 // External packages
 import 'package:dotenv/dotenv.dart';
@@ -30,6 +30,8 @@ void main(List<String> arguments) async {
   // -----------------------
   // Initialization
   // -----------------------
+  const linkFixer = LinkFixer(fixers: [TwitterFixer()]);
+
   dailyWordles(client);
   bailaoOtaku(client);
 
@@ -40,7 +42,7 @@ void main(List<String> arguments) async {
     if (event.member?.id == botUser.id) return;
 
     await checkBannedWords(event);
-    await twitterAutoFix(event);
+    await linkFixer.fixLinks(event);
   });
 
   client.onMessageReactionAdd.listen((event) async {
