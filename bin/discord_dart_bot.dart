@@ -3,7 +3,6 @@ import 'package:discord_dart_bot/commands.dart' as commands;
 import 'package:discord_dart_bot/daily_games.dart';
 import 'package:discord_dart_bot/link_fixers/link_fixers.dart';
 import 'package:discord_dart_bot/reactions.dart';
-import 'package:discord_dart_bot/tormenta25.dart';
 // External packages
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
@@ -31,9 +30,6 @@ void main(List<String> arguments) async {
   // -----------------------
   // Initialization
   // -----------------------
-  await initialTormenta25Check(client);
-  periodicTormenta25Check(client);
-
   dailyWordles(client);
   bailaoOtaku(client);
 
