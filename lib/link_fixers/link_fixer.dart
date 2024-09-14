@@ -29,6 +29,8 @@ class LinkFixer {
       parsedLinks.addAll(links);
     }
 
+    if (parsedLinks.isEmpty) return;
+
     final fakeUserMessage = await event.message.channel.sendMessage(
       MessageBuilder(
         replyId: event.message.reference?.messageId,

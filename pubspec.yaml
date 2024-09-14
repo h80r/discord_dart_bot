@@ -1,6 +1,6 @@
 name: discord_dart_bot
 description: A discord bot to help our server.
-version: 0.3.2
+version: 0.3.3
 # repository: https://github.com/my_org/my_repo
 
 environment:
