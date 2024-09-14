@@ -1,5 +1,6 @@
 import 'package:nyxx/nyxx.dart';
 
+export 'package:discord_dart_bot/link_fixers/reddit.dart';
 export 'package:discord_dart_bot/link_fixers/tiktok.dart';
 export 'package:discord_dart_bot/link_fixers/twitter.dart';
 

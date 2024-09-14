@@ -33,6 +33,7 @@ void main(List<String> arguments) async {
   const linkFixer = LinkFixer(fixers: [
     TwitterFixer(),
     TiktokFixer(),
+    RedditFixer(),
   ]);
 
   dailyWordles(client);
