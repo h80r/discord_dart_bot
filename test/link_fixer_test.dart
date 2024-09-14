@@ -1,3 +1,4 @@
+import 'package:discord_dart_bot/link_fixers/tiktok.dart';
 import 'package:discord_dart_bot/link_fixers/twitter.dart';
 import 'package:test/test.dart';
 
@@ -80,6 +81,32 @@ void main() {
       // Assert
       expect(newMessage,
           '~~[Link 1](https://x.com/Baeyonetta/status/1829577251676950864)~~');
+    });
+  });
+
+  group('Tiktok Link Fixer', () {
+    test('should affirm message needs fixing', () {
+      // Arrange
+      const fixer = TiktokFixer();
+      const message = 'https://www.tiktok.com/t/ZMhdw64Jv/';
+
+      // Act
+      final result = fixer.shouldFix(message);
+
+      // Assert
+      expect(result, true);
+    });
+
+    test('should fix link', () {
+      // Arrange
+      const fixer = TiktokFixer();
+      const message = 'https://www.tiktok.com/t/ZMhdw64Jv/';
+
+      // Act
+      final (_, [newLink]) = fixer.fixMessage(message);
+
+      // Assert
+      expect(newLink, 'https://www.vxtiktok.com/t/ZMhdw64Jv/');
     });
   });
 }
