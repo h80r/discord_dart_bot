@@ -9,7 +9,7 @@
   - [x] Verify if the message is simply a single link. If so, ignore description creation.
   - [x] Mobile twitter support with original link
   - [x] Include option to delete created messages for the author
-- [ ] Auto-Fix TikTok links
+- [x] Auto-Fix TikTok links
 - [ ] Auto-Fix Reddit links
 - [ ] Reduce embed clutter
   - [ ] Verify if it's possible to include the author message as a new embed after sending the auto-embed message
