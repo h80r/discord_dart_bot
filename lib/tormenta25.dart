@@ -58,7 +58,7 @@ Future<double> getPledged() async {
   } on Exception catch (e) {
     print(e);
     print(response.body);
-    rethrow; // TODO: Handle after discovering what is the issue
+    rethrow;
   }
 }
 
