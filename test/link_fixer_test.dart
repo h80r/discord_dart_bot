@@ -1,5 +1,4 @@
-import 'package:discord_dart_bot/link_fixers/tiktok.dart';
-import 'package:discord_dart_bot/link_fixers/twitter.dart';
+import 'package:discord_dart_bot/link_fixers/link_fixer.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -107,6 +106,34 @@ void main() {
 
       // Assert
       expect(newLink, 'https://www.vxtiktok.com/t/ZMhdw64Jv/');
+    });
+  });
+
+  group('Reddit Link Fixer', () {
+    test('should affirm message needs fixing', () {
+      // Arrange
+      const fixer = RedditFixer();
+      const message = 'https://www.reddit.com/r/Twitter_Brasil/s/VvuP5CE8os';
+
+      // Act
+      final result = fixer.shouldFix(message);
+
+      // Assert
+      expect(result, true);
+    });
+
+    test('should fix link', () {
+      // Arrange
+      const fixer = RedditFixer();
+      const message =
+          'https://www.reddit.com/r/EASportsFC/comments/126oy4x/this_is_how_to_change_commentary_language_in_fifa/';
+
+      // Act
+      final (_, [newLink]) = fixer.fixMessage(message);
+
+      // Assert
+      expect(newLink,
+          'https://www.vxreddit.com/r/EASportsFC/comments/126oy4x/this_is_how_to_change_commentary_language_in_fifa/');
     });
   });
 }
