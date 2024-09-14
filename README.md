@@ -10,7 +10,7 @@
   - [x] Mobile twitter support with original link
   - [x] Include option to delete created messages for the author
 - [x] Auto-Fix TikTok links
-- [ ] Auto-Fix Reddit links
+- [x] Auto-Fix Reddit links
 - [ ] Reduce embed clutter
   - [ ] Verify if it's possible to include the author message as a new embed after sending the auto-embed message
 - [x] Fix message embed still displaying trackers
