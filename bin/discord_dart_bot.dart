@@ -30,7 +30,10 @@ void main(List<String> arguments) async {
   // -----------------------
   // Initialization
   // -----------------------
-  const linkFixer = LinkFixer(fixers: [TwitterFixer()]);
+  const linkFixer = LinkFixer(fixers: [
+    TwitterFixer(),
+    TiktokFixer(),
+  ]);
 
   dailyWordles(client);
   bailaoOtaku(client);
