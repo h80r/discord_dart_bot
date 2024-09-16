@@ -8,7 +8,7 @@ final messagesCronString = "0 9 * * *";
 final pollCronString = "0 9 * * MON";
 
 final notasChannel = Snowflake(863813861248991252);
-final botChannel = Snowflake(1057647846779781180);
+final dueloChannel = Snowflake(1234227582715822102);
 final sites = ["https://bandle.app/", "https://loldle.net/"];
 
 void bailaoOtaku(NyxxGateway client) {
@@ -37,7 +37,7 @@ void dailyWordles(NyxxGateway client) {
 }
 
 void dueloDeDragoesPoll(NyxxGateway client) async {
-  final channel = await client.channels.fetch(botChannel) as TextChannel;
+  final channel = await client.channels.fetch(dueloChannel) as TextChannel;
   final dueloAnswers = [
     PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sexta")),
     PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sábado")),
