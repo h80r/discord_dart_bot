@@ -38,7 +38,7 @@ void main(List<String> arguments) async {
 
   dailyWordles(client);
   bailaoOtaku(client);
-
+  dueloDeDragoesPoll(client);
   // -----------------------
   // Events
   // -----------------------
