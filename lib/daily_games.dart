@@ -37,19 +37,22 @@ void dailyWordles(NyxxGateway client) {
 }
 
 void dueloDeDragoesPoll(NyxxGateway client) async {
-  final channel = await client.channels.fetch(dueloChannel) as TextChannel;
-  final dueloAnswers = [
-    PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sexta")),
-    PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sábado")),
-    PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "não sei ainda")),
-    PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "pula"))
-  ];
-  final pollDuration = Duration(days: 3);
-  final dueloPoll = PollBuilder(
-    answers: dueloAnswers,
-    allowMultiselect: true,
-    question: PollMediaBuilder(text: "vamos ter duelo de dragões essa semana?"),
-    duration: pollDuration,
-  );
-  await channel.sendMessage(MessageBuilder(poll: dueloPoll));
+  cron.schedule(Schedule.parse(pollCronString), () async {
+    final channel = await client.channels.fetch(dueloChannel) as TextChannel;
+    final dueloAnswers = [
+      PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sexta")),
+      PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sábado")),
+      PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "não sei ainda")),
+      PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "pula"))
+    ];
+    final pollDuration = Duration(days: 3);
+    final dueloPoll = PollBuilder(
+      answers: dueloAnswers,
+      allowMultiselect: true,
+      question:
+          PollMediaBuilder(text: "vamos ter duelo de dragões essa semana?"),
+      duration: pollDuration,
+    );
+    await channel.sendMessage(MessageBuilder(poll: dueloPoll));
+  });
 }
