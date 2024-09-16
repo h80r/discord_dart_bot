@@ -14,7 +14,7 @@ void bailaoOtaku(NyxxGateway client) {
     channel.sendMessage(
       MessageBuilder(
         content:
-            '$brc R\$ 22.50 no [Sympla](https://www.sympla.com.br/evento/bailao-nerd-edicao-palmas/2607659)',
+            '$brc R\$ 27.50 no [Sympla](https://www.sympla.com.br/evento/bailao-nerd-edicao-palmas/2607659)',
       ),
     );
   });
