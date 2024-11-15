@@ -16,6 +16,7 @@ void main(List<String> arguments) async {
 
   final botCommands = CommandsPlugin(prefix: (_) => '!');
   botCommands.addCommand(commands.bfCommand);
+  botCommands.addCommand(commands.playCommand);
 
   final client = await Nyxx.connectGateway(
     env['DISCORD_TOKEN'] ?? 'missing_key',
@@ -37,7 +38,6 @@ void main(List<String> arguments) async {
   ]);
 
   dailyWordles(client);
-  bailaoOtaku(client);
   dueloDeDragoesPoll(client);
   // -----------------------
   // Events
