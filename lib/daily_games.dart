@@ -4,11 +4,11 @@ import 'package:nyxx/nyxx.dart';
 // TODO: Refatorar esse arquivo em scheduledMessages ou algo do tipo
 
 final cron = Cron();
+final dueloChannel = Snowflake(1234227582715822102);
 final messagesCronString = "0 9 * * *";
-final pollCronString = "0 9 * * MON";
 
 final notasChannel = Snowflake(863813861248991252);
-final dueloChannel = Snowflake(1234227582715822102);
+final pollCronString = "0 9 * * 1";
 final sites = ["https://bandle.app/", "https://loldle.net/"];
 
 void bailaoOtaku(NyxxGateway client) {
