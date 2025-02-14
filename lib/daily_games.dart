@@ -53,6 +53,9 @@ void dueloDeDragoesPoll(NyxxGateway client) async {
           PollMediaBuilder(text: "vamos ter duelo de dragões essa semana?"),
       duration: pollDuration,
     );
-    await channel.sendMessage(MessageBuilder(poll: dueloPoll));
+    await channel.sendMessage(MessageBuilder(
+      content: "chegou a hora de votar <@1026726127143747644>",
+      poll: dueloPoll,
+    ));
   });
 }
