@@ -54,7 +54,7 @@ void dueloDeDragoesPoll(NyxxGateway client) async {
       duration: pollDuration,
     );
     await channel.sendMessage(MessageBuilder(
-      content: "chegou a hora de votar <@1026726127143747644>",
+      content: "chegou a hora de votar <@&1026726127143747644>",
       poll: dueloPoll,
     ));
   });
