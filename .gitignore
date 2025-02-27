@@ -3,3 +3,7 @@
 .dart_tool/
 
 .env
+
+lavalink/Lavalink.jar
+lavalink/logs
+lavalink/plugins
