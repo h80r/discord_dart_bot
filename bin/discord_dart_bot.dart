@@ -22,7 +22,7 @@ void main(List<String> arguments) async {
     env['DISCORD_TOKEN'] ?? 'missing_key',
     GatewayIntents.allUnprivileged | GatewayIntents.messageContent,
     options: GatewayClientOptions(
-      plugins: [logging, cliIntegration, botCommands],
+      plugins: [logging, cliIntegration, botCommands, commands.lavalink],
     ),
   );
 
