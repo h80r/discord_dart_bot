@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:discord_dart_bot/banned_words.dart';
@@ -61,16 +62,23 @@ void main(List<String> arguments) async {
 
     if (event.mentions.any((m) => m.id == botUser.id)) {
       await event.message.channel.triggerTyping();
+      final typingState = Timer.periodic(const Duration(seconds: 8), (_) async {
+        await event.message.channel.triggerTyping();
+      });
 
       final messages = event.message.channel.messages;
-      final lastMessages =
-          await messages.fetchMany(before: event.message.id, limit: 19);
+      final lastMessages = await messages.fetchMany(
+          before: event.message.id, limit: 5); // TODO: return to 19
       final allMessages = [...lastMessages.reversed, event.message];
 
-      String parseAuthor(Snowflake authorID) {
-        final guildMember =
-            guildMembers.firstWhere((m) => m.user?.id == authorID);
-        return guildMember.nick ?? guildMember.user?.username ?? '404';
+      String parseAuthor(Snowflake authorID, [String fallbackName = '404']) {
+        try {
+          final guildMember =
+              guildMembers.firstWhere((m) => m.user?.id == authorID);
+          return guildMember.nick ?? guildMember.user?.username ?? fallbackName;
+        } on StateError {
+          return fallbackName;
+        }
       }
 
       String parseMentions(Message message) {
@@ -78,7 +86,7 @@ void main(List<String> arguments) async {
         var content = message.content;
 
         for (final mention in mentions) {
-          final mentionStr = '@${parseAuthor(mention.id)}';
+          final mentionStr = '@${parseAuthor(mention.id, mention.username)}';
           final mentionId = '<@${mention.id}>';
 
           content = content.replaceAll(mentionId, mentionStr);
@@ -89,7 +97,7 @@ void main(List<String> arguments) async {
 
       final context = allMessages
           .map((m) =>
-              '${parseAuthor(m.author.id)} — ${m.timestamp.toLocal()}\n${parseMentions(m)}${m.attachments.map((a) => '\n<contentType: ${a.contentType} | fileName: ${a.fileName}>').join()}\n')
+              '${parseAuthor(m.author.id, m.author.username)} — ${m.timestamp.toLocal()}\n${parseMentions(m)}${m.attachments.map((a) => '\n<contentType: ${a.contentType} | fileName: ${a.fileName}>').join()}\n')
           .join('\n');
 
       final body = jsonEncode({
@@ -108,15 +116,11 @@ void main(List<String> arguments) async {
         },
       );
 
-      print(rawResponse.body);
-      print('-----');
+      typingState.cancel();
 
       final fullAIResponse =
           jsonDecode(rawResponse.body)['choices'][0]['message']['content'];
-      print(fullAIResponse);
-      print('type: ${fullAIResponse.runtimeType}');
 
-      await event.message.channel.triggerTyping();
       await event.message.channel
           .sendMessage(MessageBuilder(content: fullAIResponse));
     }
@@ -138,7 +142,7 @@ List<Map<String, String>> prompt(String context) => [
       {
         "role": "system",
         "content":
-            "# Instruções para o Silly Little Guy\n**Versão:** 1.3 | **Objetivo:** Simular um membro humano orgânico do grupo do Discord, respondendo apenas quando mencionado (@)."
+            "# Instruções para o Silly Little Guy\n**Versão:** 1.4 | **Objetivo:** Simular um membro humano orgânico do grupo do Discord, respondendo apenas quando mencionado (@)."
       },
       {
         "role": "system",
@@ -174,6 +178,11 @@ List<Map<String, String>> prompt(String context) => [
         "role": "system",
         "content":
             "### Nota Final\nSeja **imprevisível** e **consistente** com a identidade do grupo. Ninguém deve suspeitar que você é um bot!"
+      },
+      {
+        "role": "system",
+        "content":
+            "### Instrução Adicional\nAo responder, não repita ou copie palavra por palavra a mensagem original que disparou a interação. Sua resposta deve conter exclusivamente seu próprio conteúdo, sem ecoar o contexto ou a mensagem de entrada."
       },
       {"role": "user", "content": "CONTEXT: $context"}
     ];
