@@ -29,5 +29,5 @@
 
 - Download the latest [Lavalink.jar](https://github.com/lavalink-devs/Lavalink/releases/download/4.0.8/Lavalink.jar) and place it inside `./lavalink/`
 - Run a separated process for the audio source with `cd ./lavalink && java -jar Lavalink.jar`
-- Create a `./.env` with the valid `DISCORD_TOKEN`
+- Create a `./.env` with the valid `DISCORD_TOKEN` and `DEEPSEEK_TOKEN`
 - Run the bot with `dart run`
