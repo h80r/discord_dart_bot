@@ -14,7 +14,7 @@ Future<void> aiResponse(
     final messages = event.message.channel.messages;
     final lastMessages = await messages.fetchMany(
       before: event.message.id,
-      limit: 3,
+      limit: 19,
     );
     final allMessages = [...lastMessages.reversed, event.message];
 
