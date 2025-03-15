@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cron/cron.dart';
 import 'package:discord_dart_bot/ai_response/prompts.dart';
 import 'package:discord_dart_bot/ai_response/utils.dart';
+import 'package:discord_dart_bot/audio_sender.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
 
@@ -54,6 +55,8 @@ void dailyProverb(NyxxGateway client, DotEnv env) async {
       await proverbLogFile
           .writeAsString(jsonEncode([response, ...proverbHistory.take(6)]));
 
+      await sendAudio(env, channel.id.toString(), File('./sfx.ogg'));
+
       final today = DateTime.now().weekday;
       final headers =
           '> 笨人永远学不会，聪明人从自己的经验中学习，智者从他人的经验中学习。\n\n**Para est${today - 6 >= 0 ? 'e' : 'a'} ${[
@@ -68,12 +71,7 @@ void dailyProverb(NyxxGateway client, DotEnv env) async {
       ][today]}, reflita!**';
 
       return '$headers\n*$response*';
-    }, [
-      AttachmentBuilder(
-        data: await File('./sfx.mp3').readAsBytes(),
-        fileName: 'sfx.mp3',
-      )
-    ]);
+    });
   });
 }
 
