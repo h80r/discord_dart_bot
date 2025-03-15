@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cron/cron.dart';
+import 'package:discord_dart_bot/ai_response/prompts.dart';
+import 'package:discord_dart_bot/ai_response/utils.dart';
+import 'package:dotenv/dotenv.dart';
 import 'package:nyxx/nyxx.dart';
 
 // TODO: Refatorar esse arquivo em scheduledMessages ou algo do tipo
@@ -21,6 +27,53 @@ void bailaoOtaku(NyxxGateway client) {
             '$brc R\$ 27.50 no [Sympla](https://www.sympla.com.br/evento/bailao-nerd-edicao-palmas/2607659)',
       ),
     );
+  });
+}
+
+void dailyProverb(NyxxGateway client, DotEnv env) async {
+  const frequency = '0 11 * * *';
+  cron.schedule(Schedule.parse(frequency), () async {
+    final channel = await client.channels.fetch(notasChannel) as TextChannel;
+
+    await sendMessageWithTyping(channel, () async {
+      final proverbLogFile = File('./.proverb.log');
+      if (!await proverbLogFile.exists()) {
+        await proverbLogFile.writeAsString('[]');
+      }
+
+      final proverbHistory =
+          (jsonDecode(await proverbLogFile.readAsString()) as List)
+              .map((e) => e as String)
+              .toList();
+
+      final response = await getDeepSeekResponse(
+        env,
+        proverbPrompt(proverbHistory.join('\n')),
+      );
+
+      await proverbLogFile
+          .writeAsString(jsonEncode([response, ...proverbHistory.take(6)]));
+
+      final today = DateTime.now().weekday;
+      final headers =
+          '> 笨人永远学不会，聪明人从自己的经验中学习，智者从他人的经验中学习。\n\n**Para est${today - 6 >= 0 ? 'e' : 'a'} ${[
+        'null',
+        'segunda-feira',
+        'terca-feira',
+        'quarta-feira',
+        'quinta-feira',
+        'sexta-feira',
+        'sábado',
+        'domingo'
+      ][today]}, reflita!**';
+
+      return '$headers\n*$response*';
+    }, [
+      AttachmentBuilder(
+        data: await File('./sfx.mp3').readAsBytes(),
+        fileName: 'sfx.mp3',
+      )
+    ]);
   });
 }
 

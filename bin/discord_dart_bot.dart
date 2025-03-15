@@ -42,6 +42,7 @@ void main(List<String> arguments) async {
   ]);
 
   dailyWordles(client);
+  dailyProverb(client, env);
   dueloDeDragoesPoll(client);
 
   // -----------------------
