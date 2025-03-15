@@ -10,7 +10,7 @@ Future<void> aiResponse(
   List<Member> guildMembers,
   DotEnv env,
 ) async {
-  await sendMessageWithTyping(event, () async {
+  await sendMessageWithTyping(event.message.channel, () async {
     final messages = event.message.channel.messages;
     final lastMessages = await messages.fetchMany(
       before: event.message.id,

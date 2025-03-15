@@ -32,17 +32,21 @@ Future<String> getDeepSeekResponse(
 }
 
 Future<Message> sendMessageWithTyping(
-  MessageCreateEvent event,
-  Future<String?> Function() processMessage,
-) async {
-  await event.message.channel.triggerTyping();
+  PartialTextChannel channel,
+  Future<String?> Function() processMessage, [
+  List<AttachmentBuilder>? attachments,
+]) async {
+  await channel.triggerTyping();
   final typingState = Timer.periodic(const Duration(seconds: 8), (_) async {
-    await event.message.channel.triggerTyping();
+    await channel.triggerTyping();
   });
 
   final msg = await processMessage();
 
   typingState.cancel();
 
-  return await event.message.channel.sendMessage(MessageBuilder(content: msg));
+  return await channel.sendMessage(MessageBuilder(
+    content: msg,
+    attachments: attachments,
+  ));
 }
