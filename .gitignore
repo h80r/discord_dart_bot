@@ -3,6 +3,7 @@
 .dart_tool/
 
 .env
+.proverb.log
 
 lavalink/Lavalink.jar
 lavalink/logs
