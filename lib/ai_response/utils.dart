@@ -10,8 +10,8 @@ Future<String> getDeepSeekResponse(
   List<Map<String, String>> messages,
 ) async {
   final body = jsonEncode({
-    // 'model': 'deepseek-reasoner',
-    'model': 'deepseek-chat',
+    'model': 'deepseek-reasoner',
+    // 'model': 'deepseek-chat',
     'messages': messages,
     'stream': false
   });

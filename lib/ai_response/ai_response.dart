@@ -20,7 +20,7 @@ Future<void> aiResponse(
 
     final context = allMessages
         .map((m) =>
-            '${parseAuthor(guildMembers, m.author.id, m.author.username)} — ${m.timestamp.toLocal()}\n${parseMentions(guildMembers, m)}${m.attachments.map((a) => '\n<contentType: ${a.contentType} | fileName: ${a.fileName}>').join()}\n')
+            '<message_metadata><author>${parseAuthor(guildMembers, m.author.id, m.author.username)}</author><timestamp>${m.timestamp.toLocal()}</timestamp></message_metadata>\n${parseMentions(guildMembers, m)}${m.attachments.map((a) => '\n<contentType: ${a.contentType} | fileName: ${a.fileName}>').join()}\n')
         .join('\n');
 
     return await getDeepSeekResponse(env, egoPrompt(context));
