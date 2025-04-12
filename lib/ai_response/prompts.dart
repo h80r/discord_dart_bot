@@ -108,6 +108,11 @@ Examples:
             "Your response should contain exclusively the new proverb. Don't include greetings, explanations about the proverb or text formatting (like bullet-points).",
       },
       {
+        "role": "system",
+        "content":
+            "Try to make your proverb sound like a discourse made by Mao Tse Tung.",
+      },
+      {
         "role": "user",
         "content": "Can you give your fellow daoists a new proverb?",
       },
