@@ -60,4 +60,7 @@ class LinkFixer {
       ReactionBuilder(name: ':sus', id: Snowflake(941130823514615888)),
     );
   }
+
+  bool hasLinksToFix(String message) =>
+      _fixers.any((f) => f.shouldFix(message));
 }

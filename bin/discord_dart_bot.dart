@@ -58,8 +58,13 @@ void main(List<String> arguments) async {
   client.onMessageCreate.listen((event) async {
     if (event.member?.id == botUser.id) return;
 
-    await checkBannedWords(event);
-    await linkFixer.fixLinks(event);
+    if (hasBannedWords(event.message.content)) {
+      return await blockBannedWords(event);
+    }
+
+    if (linkFixer.hasLinksToFix(event.message.content)) {
+      return await linkFixer.fixLinks(event);
+    }
 
     if (event.mentions.any((m) => m.id == botUser.id)) {
       await aiResponse(event, guildMembers, env);
