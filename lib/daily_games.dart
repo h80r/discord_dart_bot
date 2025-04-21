@@ -14,7 +14,7 @@ final cron = Cron();
 final dueloChannel = Snowflake(1234227582715822102);
 final messagesCronString = "0 9 * * *";
 
-final notasChannel = Snowflake(863813861248991252);
+final notasChannel = Snowflake(1057647846779781180);
 final pollCronString = "0 9 * * 1";
 final sites = ["https://bandle.app/", "https://loldle.net/"];
 
@@ -33,7 +33,7 @@ void bailaoOtaku(NyxxGateway client) {
 
 void dailyProverb(NyxxGateway client, DotEnv env) async {
   const frequency = '0 11 * * *';
-  cron.schedule(Schedule.parse(frequency), () async {
+  void logic() async {
     final channel = await client.channels.fetch(notasChannel) as TextChannel;
 
     await sendMessageWithTyping(channel, () async {
@@ -72,7 +72,11 @@ void dailyProverb(NyxxGateway client, DotEnv env) async {
 
       return '$headers\n*$response*';
     });
-  });
+  }
+
+  logic();
+
+  cron.schedule(Schedule.parse(frequency), logic);
 }
 
 void dailyWordles(NyxxGateway client) {

@@ -100,7 +100,7 @@ Examples:
       {
         "role": "system",
         "content":
-            "You already gave some proverbs to your fellow daoists, so you shouldn't repeat the following proverbs (but can still say a new proverb with the same theme):\n$proverbHistory",
+            "You already gave some proverbs to your fellow daoists, so you shouldn't repeat the following proverbs:\n$proverbHistory",
       },
       {
         "role": "system",
@@ -111,6 +111,11 @@ Examples:
         "role": "system",
         "content":
             "Try to make your proverb sound like a discourse made by Mao Tse Tung.",
+      },
+      {
+        "role": "system",
+        "content":
+            "You should always gift new knowledge to your fellow daoists, so NEVER repeat previous themes and always touch new aspects of life. Avoid giving proverbs that sound too similar to previous proverbs.",
       },
       {
         "role": "user",
