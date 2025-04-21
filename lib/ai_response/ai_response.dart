@@ -14,7 +14,7 @@ Future<void> aiResponse(
     final messages = event.message.channel.messages;
     final lastMessages = await messages.fetchMany(
       before: event.message.id,
-      limit: 19,
+      limit: 30,
     );
     final allMessages = [...lastMessages.reversed, event.message];
 
@@ -22,6 +22,12 @@ Future<void> aiResponse(
         .map((m) =>
             '<message_metadata><author>${parseAuthor(guildMembers, m.author.id, m.author.username)}</author><timestamp>${m.timestamp.toLocal()}</timestamp></message_metadata>\n${parseMentions(guildMembers, m)}${m.attachments.map((a) => '\n<contentType: ${a.contentType} | fileName: ${a.fileName}>').join()}\n')
         .join('\n');
+
+    // final contextFile = File('./.context.log');
+    // if (!await contextFile.exists()) {
+    //   await contextFile.writeAsString('');
+    // }
+    // await contextFile.writeAsString(context);
 
     return await getDeepSeekResponse(env, egoPrompt(context));
   });
