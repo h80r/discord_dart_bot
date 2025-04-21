@@ -14,7 +14,7 @@ final cron = Cron();
 final dueloChannel = Snowflake(1234227582715822102);
 final messagesCronString = "0 9 * * *";
 
-final notasChannel = Snowflake(1057647846779781180);
+final notasChannel = Snowflake(863813861248991252);
 final pollCronString = "0 9 * * 1";
 final sites = ["https://bandle.app/", "https://loldle.net/"];
 
