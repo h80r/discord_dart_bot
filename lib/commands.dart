@@ -165,8 +165,8 @@ final todosCommand = ChatCommand(
   },
 );
 
-final todosRemoveCommand = ChatCommand(
-  'todos remove',
+final todoRemoveCommand = ChatCommand(
+  'todo-remove',
   'Remove uma tarefa da lista pelo seu número',
   (
     InteractionChatContext ctx,

@@ -20,7 +20,7 @@ void main(List<String> arguments) async {
   botCommands.addCommand(commands.playCommand);
   botCommands.addCommand(commands.todoCommand);
   botCommands.addCommand(commands.todosCommand);
-  botCommands.addCommand(commands.todosRemoveCommand);
+  botCommands.addCommand(commands.todoRemoveCommand);
 
   final client = await Nyxx.connectGateway(
     env['DISCORD_TOKEN'] ?? 'missing_key',
