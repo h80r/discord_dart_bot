@@ -18,6 +18,9 @@ void main(List<String> arguments) async {
   final botCommands = CommandsPlugin(prefix: (_) => '!');
   botCommands.addCommand(commands.bfCommand);
   botCommands.addCommand(commands.playCommand);
+  botCommands.addCommand(commands.todoCommand);
+  botCommands.addCommand(commands.todosCommand);
+  botCommands.addCommand(commands.todosRemoveCommand);
 
   final client = await Nyxx.connectGateway(
     env['DISCORD_TOKEN'] ?? 'missing_key',
