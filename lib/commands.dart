@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
@@ -90,6 +92,116 @@ final playCommand = ChatCommand(
                 : EmbedImageBuilder(url: track.info.artworkUrl!),
           )
         ],
+      ),
+    );
+  },
+);
+
+final todoCommand = ChatCommand(
+  'todo',
+  'Adiciona uma nova tarefa à lista de TODOs',
+  (
+    InteractionChatContext ctx,
+    @Description('Texto da tarefa') String text,
+  ) async {
+    final todoLogFile = File('./.todo.log');
+    if (!await todoLogFile.exists()) {
+      await todoLogFile.writeAsString('[]');
+    }
+
+    final todos = (jsonDecode(await todoLogFile.readAsString()) as List)
+        .map((e) => e as String)
+        .toList();
+
+    todos.insert(0, text);
+    await todoLogFile.writeAsString(jsonEncode(todos));
+
+    await ctx.respond(
+      MessageBuilder(
+        content: '✅ Tarefa adicionada: $text',
+      ),
+    );
+  },
+);
+
+final todosCommand = ChatCommand(
+  'todos',
+  'Lista todas as tarefas armazenadas',
+  (InteractionChatContext ctx) async {
+    final todoLogFile = File('./.todo.log');
+    if (!await todoLogFile.exists()) {
+      await ctx.respond(
+        MessageBuilder(
+          content: '📝 Nenhuma tarefa armazenada ainda.',
+        ),
+      );
+      return;
+    }
+
+    final todos = (jsonDecode(await todoLogFile.readAsString()) as List)
+        .map((e) => e as String)
+        .toList();
+
+    if (todos.isEmpty) {
+      await ctx.respond(
+        MessageBuilder(
+          content: '📝 Nenhuma tarefa armazenada ainda.',
+        ),
+      );
+      return;
+    }
+
+    final todosList = todos.asMap().entries.map((e) {
+      final index = e.key + 1;
+      final text = e.value;
+      return '$index. $text';
+    }).join('\n');
+
+    await ctx.respond(
+      MessageBuilder(
+        content: '📝 Lista de tarefas:\n$todosList',
+      ),
+    );
+  },
+);
+
+final todosRemoveCommand = ChatCommand(
+  'todos remove',
+  'Remove uma tarefa da lista pelo seu número',
+  (
+    InteractionChatContext ctx,
+    @Description('Número da tarefa') int number,
+  ) async {
+    final todoLogFile = File('./.todo.log');
+    if (!await todoLogFile.exists()) {
+      await ctx.respond(
+        MessageBuilder(
+          content: '❌ Nenhuma tarefa armazenada ainda.',
+        ),
+      );
+      return;
+    }
+
+    final todos = (jsonDecode(await todoLogFile.readAsString()) as List)
+        .map((e) => e as String)
+        .toList();
+
+    if (number < 1 || number > todos.length) {
+      await ctx.respond(
+        MessageBuilder(
+          content:
+              '❌ Número de tarefa inválido. Use `/todos` para ver a lista.',
+        ),
+      );
+      return;
+    }
+
+    final removedTodo = todos.removeAt(number - 1);
+    await todoLogFile.writeAsString(jsonEncode(todos));
+
+    await ctx.respond(
+      MessageBuilder(
+        content: '✅ Tarefa removida: $removedTodo',
       ),
     );
   },
