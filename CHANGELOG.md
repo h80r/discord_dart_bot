@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Improved
+- Enhanced proverb generation system to avoid repetitive patterns and encourage more diverse themes
+- Added Mao Tse Tung style to proverb generation while maintaining diversity
+
 ## [0.3.5] - 29-05-2025
 
 ### Added

@@ -56,7 +56,7 @@ List<Map<String, String>> proverbPrompt(String proverbHistory) => [
       {
         "role": "system",
         "content": '''
-Examples:
+Examples of diverse proverbs:
 - Não importa quantos passos você deu para trás, o importante é quantos passos agora você vai dar pra frente.
 - A derrota só será uma bebida amarga se concordarmos em tragá-la.
 - Fracassar não é cair, é recusar-se a levantar.
@@ -100,12 +100,17 @@ Examples:
       {
         "role": "system",
         "content":
-            "Try to make your proverb sound like a discourse made by Mao Tse Tung.",
+            "IMPORTANT: Avoid these patterns in your new proverb:\n1. Don't use the structure 'not X, but Y' repeatedly\n2. Don't focus only on nature metaphors\n3. Don't always talk about hidden forces or revolution\n4. Don't use overly complex metaphors\n5. Vary the length of your proverbs\n6. Use different themes: wisdom, patience, learning, relationships, daily life, etc.\n7. Sometimes use simple, direct language instead of always using metaphors\n8. Avoid using similar words like 'force', 'power', 'hidden', 'silent' repeatedly",
       },
       {
         "role": "system",
         "content":
             "You should always gift new knowledge to your fellow daoists, so NEVER repeat previous themes and always touch new aspects of life. Avoid giving proverbs that sound too similar to previous proverbs.",
+      },
+      {
+        "role": "system",
+        "content":
+            "While maintaining diversity, try to make your proverb sound like a discourse made by Mao Tse Tung. Use his characteristic style of combining revolutionary spirit with philosophical wisdom, but avoid being repetitive or predictable.",
       },
       {
         "role": "user",
