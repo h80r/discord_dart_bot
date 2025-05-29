@@ -113,7 +113,7 @@ final todoCommand = ChatCommand(
         .map((e) => e as String)
         .toList();
 
-    todos.insert(0, text);
+    todos.add(text);
     await todoLogFile.writeAsString(jsonEncode(todos));
 
     await ctx.respond(

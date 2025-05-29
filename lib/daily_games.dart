@@ -74,8 +74,6 @@ void dailyProverb(NyxxGateway client, DotEnv env) async {
     });
   }
 
-  logic();
-
   cron.schedule(Schedule.parse(frequency), logic);
 }
 

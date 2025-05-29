@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.5] - 29-05-2025
+
 ### Added
 - Added "literalmente" to bot's banned words list
 - Added Sunday as a voting option in the RPG poll
+
+### Fixed
+- Changed TODO system to append new tasks at the end of the list instead of the beginning
+- Fixed daily proverb system to only send messages at scheduled time (11:00) instead of on bot startup
 
 ## [0.3.4] - 28-05-2025
 
