@@ -9,7 +9,8 @@ final bannedWords = [
   "trotskismo",
   "mirandous",
   "ciro gomes",
-  "marçal"
+  "marçal",
+  "literalmente"
 ].join("|");
 
 Future<void> blockBannedWords(MessageCreateEvent event) async {
