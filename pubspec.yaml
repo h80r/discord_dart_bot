@@ -1,7 +1,7 @@
 name: discord_dart_bot
 description: A discord bot to help our server.
 publish_to: 'none'
-version: 0.3.5
+version: 0.3.6
 # repository: https://github.com/my_org/my_repo
 
 environment:
