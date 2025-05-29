@@ -1,33 +1,77 @@
-## Objectives
+# Discord Dart Bot
 
-- [x] Auto-Fix Twitter Links
-  - [x] Include info about the original poster
-  - [x] Delete original message
-  - [x] Resend with fixed link
-  - [x] Remove unnecessary tracking data
-  - [x] Keep original references to message
-  - [x] Verify if the message is simply a single link. If so, ignore description creation.
-  - [x] Mobile twitter support with original link
-  - [x] Include option to delete created messages for the author
-- [x] Auto-Fix TikTok links
-- [x] Auto-Fix Reddit links
-- [ ] Reduce embed clutter
-  - [ ] Verify if it's possible to include the author message as a new embed after sending the auto-embed message
-- [x] Fix message embed still displaying trackers
-- [x] Tormenta25 - Helper
-  - [x] Acompanhamento básico
-  - [x] Refatorar Código
-  - [ ] Deletar a mensagem prévia caso exista ao reiniciar
-    - Atividade depreciada com o fim da campanha
-  - [x] Incluir Error Handling
-- [x] Refatorar resto do bot
-- [x] Testes
-  - [x] Fragmentar as functions em unidades testáveis
-  - [x] Incluir testes
+A Discord bot written in Dart that offers several useful features for the server.
+
+## Features
+
+### Commands
+- `/todo <text>` - Adds a new task to the list
+- `/todos` - Lists all stored tasks
+- `/todo-remove <number>` - Removes a task by its number
+- `/bf` - Reacts with 🧠🌫️ when someone has brain fog
+- `/play <url>` - Plays YouTube music (only in the music channel)
+
+### Automatic Features
+- Daily daoist wisdom proverbs
+- Auto-fix for social media links:
+  - Twitter
+  - TikTok
+  - Reddit
+- AI responses when mentioned
+- Daily games (Wordle, Bandle)
 
 ## Setup
 
-- Download the latest [Lavalink.jar](https://github.com/lavalink-devs/Lavalink/releases/download/4.0.8/Lavalink.jar) and place it inside `./lavalink/`
-- Run a separated process for the audio source with `cd ./lavalink && java -jar Lavalink.jar`
-- Create a `./.env` with the valid `DISCORD_TOKEN` and `DEEPSEEK_TOKEN`
-- Run the bot with `dart run`
+### Prerequisites
+- Dart SDK ^3.5.0
+- Java 17+ (for Lavalink)
+- Node.js (optional, for gitmoji)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/discord_dart_bot.git
+cd discord_dart_bot
+```
+
+2. Install dependencies:
+```bash
+dart pub get
+```
+
+3. Configure Lavalink:
+   - Download [Lavalink.jar](https://github.com/lavalink-devs/Lavalink/releases/download/4.0.8/Lavalink.jar)
+   - Place the file in `./lavalink/`
+   - Run in a separate terminal:
+   ```bash
+   cd ./lavalink && java -jar Lavalink.jar
+   ```
+
+4. Configure environment variables:
+   - Create a `.env` file in the project root
+   - Add the following variables:
+   ```
+   DISCORD_TOKEN=your_token_here
+   DEEPSEEK_TOKEN=your_token_here
+   ```
+
+5. Run the bot:
+```bash
+dart run
+```
+
+## Project Structure
+
+```
+discord_dart_bot/
+├── bin/                    # Bot entry point
+├── lib/                    # Source code
+│   ├── ai_response/       # AI response system
+│   ├── link_fixers/       # Link fixers
+│   └── ...
+├── lavalink/              # Audio server
+├── .env                   # Environment variables
+├── .todo.log             # TODO storage
+└── .proverb.log          # Proverb history
+```
