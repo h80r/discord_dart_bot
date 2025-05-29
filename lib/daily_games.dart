@@ -97,6 +97,7 @@ void dueloDeDragoesPoll(NyxxGateway client) async {
     final dueloAnswers = [
       PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sexta")),
       PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "sábado")),
+      PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "domingo")),
       PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "não sei ainda")),
       PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "pula"))
     ];

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added "literalmente" to bot's banned words list
+- Added Sunday as a voting option in the RPG poll
 
 ## [0.3.4] - 28-05-2025
 

@@ -46,5 +46,5 @@ This document lists the future objectives and planned improvements for the bot.
 - [x] Proverb system
 - [x] Basic TODO system
 - [x] Add "literalmente" to bot's blocked words list
-- [ ] Include Sunday in RPG voting days
+- [x] Include Sunday in RPG voting days
 - [ ] Maintain original TODO order and append new ones at the end 
