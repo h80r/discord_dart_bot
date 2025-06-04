@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Auto-reaction with :pog: emoji when "japão" is mentioned in messages (including variations like "japao" and l33t speak)
 
+### Fixed
+- Updated regex pattern to properly match "japão" and "japã0" variations
+
 ## [0.3.6] - 29-05-2025
 
 ### Improved

@@ -74,7 +74,7 @@ void main(List<String> arguments) async {
     }
 
     final japanPattern = RegExp(
-      r'j[4a@][p3][4a@]o',
+      r'j[4a@][p3][4a@ãÃ][o0]',
       caseSensitive: false,
     );
 
