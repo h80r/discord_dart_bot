@@ -72,6 +72,17 @@ void main(List<String> arguments) async {
     if (event.mentions.any((m) => m.id == botUser.id)) {
       await aiResponse(event, guildMembers, env);
     }
+
+    final japanPattern = RegExp(
+      r'j[4a@][p3][4a@]o',
+      caseSensitive: false,
+    );
+
+    if (japanPattern.hasMatch(event.message.content)) {
+      await event.message.react(
+        ReactionBuilder(name: ':pog', id: Snowflake(942920644335652864)),
+      );
+    }
   });
 
   client.onMessageReactionAdd.listen((event) async {
