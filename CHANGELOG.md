@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.7] - 04-06-2025
+
+### Added
+- Auto-reaction with :pog: emoji when "japão" is mentioned in messages (including variations like "japao" and l33t speak)
+
 ## [0.3.6] - 29-05-2025
 
 ### Improved
