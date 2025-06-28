@@ -15,6 +15,7 @@ dependencies:
   cron: ^0.6.1
   nyxx_commands: ^6.0.2
   nyxx_lavalink: ^4.0.0-dev.1
+  html: ^0.15.4
   # path: ^1.8.0
 
 dev_dependencies:

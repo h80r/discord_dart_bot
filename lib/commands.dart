@@ -6,6 +6,8 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:nyxx_lavalink/nyxx_lavalink.dart';
 
+import 'onepiece_fetcher.dart';
+
 // Description field must be 100 characters or less
 final bfCommand = ChatCommand(
   'bf',
@@ -14,6 +16,17 @@ final bfCommand = ChatCommand(
     MessageBuilder(content: '🧠🌫️'),
   ),
 );
+
+
+
+final testCommand = ChatCommand('test', 'to test', (ChatContext ctx) async  {
+
+  print("Test command executed by ${ctx.user.username} (${ctx.user.id}) in channel ${ctx.channel.id}");
+  fetchOnePieceChapter(ctx.client);
+  await ctx.respond(
+    MessageBuilder(content: 'Test command executed successfully!'),
+  );
+});
 
 final lavalink = LavalinkPlugin(
   base: Uri.http('localhost:2333'),

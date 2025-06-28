@@ -3,6 +3,7 @@ import 'package:discord_dart_bot/banned_words.dart';
 import 'package:discord_dart_bot/commands.dart' as commands;
 import 'package:discord_dart_bot/daily_games.dart';
 import 'package:discord_dart_bot/link_fixers/link_fixer.dart';
+import 'package:discord_dart_bot/onepiece_fetcher.dart';
 import 'package:discord_dart_bot/reactions.dart';
 // External packages
 import 'package:dotenv/dotenv.dart';
@@ -15,12 +16,15 @@ void main(List<String> arguments) async {
   // -----------------------
   final env = DotEnv()..load();
 
+  print('Starting bot...');
+
   final botCommands = CommandsPlugin(prefix: (_) => '!');
   botCommands.addCommand(commands.bfCommand);
   botCommands.addCommand(commands.playCommand);
   botCommands.addCommand(commands.todoCommand);
   botCommands.addCommand(commands.todosCommand);
   botCommands.addCommand(commands.todoRemoveCommand);
+  botCommands.addCommand(commands.testCommand);
 
   final client = await Nyxx.connectGateway(
     env['DISCORD_TOKEN'] ?? 'missing_key',
@@ -35,6 +39,8 @@ void main(List<String> arguments) async {
   final guildMembers = <Member>[];
   final botUser = await client.users.fetchCurrentUser();
 
+  print('Bot started');
+
   // -----------------------
   // Initialization
   // -----------------------
@@ -44,6 +50,8 @@ void main(List<String> arguments) async {
     RedditFixer(),
   ]);
 
+  print('Starting cron jobs...');
+  fetchOnePieceChapter(client);
   dailyWordles(client);
   dailyProverb(client, env);
   dueloDeDragoesPoll(client);
@@ -92,4 +100,5 @@ void main(List<String> arguments) async {
     messageDebugger(event, reactedMessage);
     await messageDeleter(event, reactedMessage, botUser);
   });
+
 }
