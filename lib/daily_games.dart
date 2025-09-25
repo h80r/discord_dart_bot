@@ -99,7 +99,7 @@ void dueloDeDragoesPoll(NyxxGateway client) async {
       PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "não sei ainda")),
       PollAnswerBuilder(pollMedia: PollMediaBuilder(text: "pula"))
     ];
-    final pollDuration = Duration(days: 3);
+    final pollDuration = Duration(days: 4);
     final dueloPoll = PollBuilder(
       answers: dueloAnswers,
       allowMultiselect: true,
@@ -107,9 +107,45 @@ void dueloDeDragoesPoll(NyxxGateway client) async {
           PollMediaBuilder(text: "vamos ter duelo de dragões essa semana?"),
       duration: pollDuration,
     );
-    await channel.sendMessage(MessageBuilder(
+    final pollMessage = await channel.sendMessage(MessageBuilder(
       content: "chegou a hora de votar <@&1026726127143747644>",
       poll: dueloPoll,
     ));
+
+    final pollLogFile = File('./.poll.log');
+    await pollLogFile.writeAsString(pollMessage.id.toString());
+  });
+}
+
+void dueloDeDragoesReminder(NyxxGateway client, DotEnv env) async {
+  final reminderCronString = "0 9 * * 4";
+  cron.schedule(Schedule.parse(reminderCronString), () async {
+    final channel = await client.channels.fetch(dueloChannel) as TextChannel;
+
+    try {
+      final pollLogFile = File('./.poll.log');
+      if (!await pollLogFile.exists()) {
+        return;
+      }
+
+      final pollMessageId = (await pollLogFile.readAsString()).trim();
+      if (pollMessageId.isEmpty) {
+        return;
+      }
+
+      final pollMessage =
+          await channel.messages.fetch(Snowflake.parse(pollMessageId));
+
+      if (pollMessage.poll == null || pollMessage.poll!.results!.isFinalized) {
+        return;
+      }
+
+      await channel.sendMessage(MessageBuilder(
+        content: "bora votar zé, sem voto n tem rpg <@&1026726127143747644>",
+        replyId: pollMessage.id,
+      ));
+    } catch (e) {
+      print('Erro no lembrete de votação: $e');
+    }
   });
 }
