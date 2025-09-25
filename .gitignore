@@ -5,6 +5,7 @@
 .env
 .proverb.log
 .todo.log
+.poll.log
 
 lavalink/Lavalink.jar
 lavalink/logs
