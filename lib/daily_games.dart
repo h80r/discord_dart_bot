@@ -16,7 +16,12 @@ final messagesCronString = "0 9 * * *";
 
 final notasChannel = Snowflake(863813861248991252);
 final pollCronString = "0 9 * * 1";
-final sites = ["https://bandle.app/", "https://loldle.net/"];
+final sites = [
+  "https://bandle.app/",
+  "https://loldle.net/",
+  "https://term.ooo/",
+  "https://wordgy.com/"
+];
 
 void bailaoOtaku(NyxxGateway client) {
   cron.schedule(Schedule.parse(messagesCronString), () async {
