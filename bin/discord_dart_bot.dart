@@ -72,15 +72,10 @@ void main(List<String> arguments) async {
     }
 
     final mentionsBot = event.mentions.any((m) => m.id == botUser.id);
-    final isReplyToBot = event.message.reference != null;
-
-    if (mentionsBot) {
+    final isLinkFix = isLinkFixerMessage(
+        await event.message.reference?.message?.get(), botUser.id);
+    if (mentionsBot && !isLinkFix) {
       await aiResponse(event, guildMembers, env);
-    } else if (isReplyToBot) {
-      final referencedMessage = await event.message.reference?.message?.get();
-      if (!isLinkFixerMessage(referencedMessage!, botUser.id)) {
-        await aiResponse(event, guildMembers, env);
-      }
     }
 
     final japanPattern = RegExp(
