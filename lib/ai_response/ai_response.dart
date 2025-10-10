@@ -29,7 +29,13 @@ Future<void> aiResponse(
     // }
     // await contextFile.writeAsString(context);
 
-    return await getDeepSeekResponse(env, egoPrompt(context));
+    final useLockedInPrompt =
+        event.message.content.toLowerCase().contains('lock in');
+
+    return await getDeepSeekResponse(
+      env,
+      useLockedInPrompt ? lockedInPrompt(context) : egoPrompt(context),
+    );
   });
 }
 

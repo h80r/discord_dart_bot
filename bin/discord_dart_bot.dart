@@ -3,6 +3,7 @@ import 'package:discord_dart_bot/banned_words.dart';
 import 'package:discord_dart_bot/commands.dart' as commands;
 import 'package:discord_dart_bot/daily_games.dart';
 import 'package:discord_dart_bot/link_fixers/link_fixer.dart';
+import 'package:discord_dart_bot/message_helpers.dart';
 import 'package:discord_dart_bot/reactions.dart';
 // External packages
 import 'package:dotenv/dotenv.dart';
@@ -70,8 +71,16 @@ void main(List<String> arguments) async {
       return await linkFixer.fixLinks(event);
     }
 
-    if (event.mentions.any((m) => m.id == botUser.id)) {
+    final mentionsBot = event.mentions.any((m) => m.id == botUser.id);
+    final isReplyToBot = event.message.reference != null;
+
+    if (mentionsBot) {
       await aiResponse(event, guildMembers, env);
+    } else if (isReplyToBot) {
+      final referencedMessage = await event.message.reference?.message?.get();
+      if (!isLinkFixerMessage(referencedMessage!, botUser.id)) {
+        await aiResponse(event, guildMembers, env);
+      }
     }
 
     final japanPattern = RegExp(
