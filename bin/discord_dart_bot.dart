@@ -4,6 +4,7 @@ import 'package:discord_dart_bot/commands.dart' as commands;
 import 'package:discord_dart_bot/daily_games.dart';
 import 'package:discord_dart_bot/link_fixers/link_fixer.dart';
 import 'package:discord_dart_bot/onepiece_fetcher.dart';
+import 'package:discord_dart_bot/message_helpers.dart';
 import 'package:discord_dart_bot/reactions.dart';
 // External packages
 import 'package:dotenv/dotenv.dart';
@@ -55,6 +56,7 @@ void main(List<String> arguments) async {
   dailyWordles(client);
   dailyProverb(client, env);
   dueloDeDragoesPoll(client);
+  dueloDeDragoesReminder(client, env);
 
   // -----------------------
   // Events
@@ -77,7 +79,10 @@ void main(List<String> arguments) async {
       return await linkFixer.fixLinks(event);
     }
 
-    if (event.mentions.any((m) => m.id == botUser.id)) {
+    final mentionsBot = event.mentions.any((m) => m.id == botUser.id);
+    final isLinkFix = isLinkFixerMessage(
+        await event.message.reference?.message?.get(), botUser.id);
+    if (mentionsBot && !isLinkFix) {
       await aiResponse(event, guildMembers, env);
     }
 
